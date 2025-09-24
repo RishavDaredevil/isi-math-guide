@@ -5,6 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Interactive Study Guide for ISI MSQE Mathematics</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Chosen Palette: Warm Neutrals (Amber, Slate) with priority-based accents (Red, Orange, Yellow, Gray) -->
+    <!-- Application Structure Plan: A single-page dashboard with five main tabs for each subject area. Content within each subject is organized into collapsible accordion sections corresponding to the priority tiers (1-4). This structure avoids overwhelming the user with information, allowing them to focus on one subject and priority level at a time. The interactive tabs and accordions provide a more engaging and user-directed study experience than a static document. -->
+    <!-- Visualization & Content Choices: The core report content (topics, tiers) is organized textually. Priority is visualized using colored tags for quick identification. Interactivity is provided through JS-powered tabs and accordions. No traditional charts (e.g., bar, pie) are necessary as the data is qualitative and hierarchical. This approach directly serves the goal of creating a structured, explorable study guide. CONFIRMATION: NO SVG/Mermaid. -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
         body {
@@ -22,7 +26,7 @@
             transition: max-height 0.3s ease-in-out;
         }
         .accordion-open .accordion-content {
-            max-height: 1500px;
+            max-height: 1500px; /* Adjust as needed */
         }
         .accordion-open .accordion-arrow {
             transform: rotate(180deg);
@@ -40,33 +44,236 @@
         </header>
 
         <nav id="tabs" class="flex flex-wrap justify-center border-b-2 border-amber-100 mb-8">
+            <!-- Tabs will be dynamically inserted here -->
         </nav>
 
         <main id="main-content">
+            <!-- Content will be dynamically inserted here -->
         </main>
     </div>
 
     <script>
         const studyData = {
             "single-variable-calculus": {
-                title: "Single Variable Calculus",
+                title: "Single-Variable Calculus",
                 tiers: [
                     {
                         tier: 1,
-                        title: "Core Concepts",
-                        description: "Fundamental ideas essential for solving most calculus problems.",
+                        title: "Absolutely Essential (Highest Priority)",
+                        description: "Master these topics completely, including both theory and computation.",
                         topics: [
-                            { name: "Limits & Continuity", details: "Definitions, ε-δ proofs, L'Hôpital’s rule" },
-                            { name: "Differentiation", details: "Derivatives, higher order, Mean Value Theorem" }
+                            { name: "The Derivative: Definition and Rules", details: "The absolute foundation. Understand geometric/physical meaning (slope, rate of change). Instant recall of product, quotient, and chain rules. Differentiate polynomials, trig, exponential, and log functions. Implicit differentiation is crucial." },
+                            { name: "Applications of Differentiation: Optimization", details: "One of the most significant applications in economics. Use f' for increasing/decreasing behavior and f'' for concavity. Find extrema by testing critical points and endpoints." },
+                            { name: "The Integral: Definition and Fundamental Theorems", details: "As important as differentiation. Understand the integral as area under a curve. Master both parts of the Fundamental Theorem of Calculus (FTC 1 for evaluation, FTC 2 for differentiating integrals)." },
+                            { name: "Core Techniques of Integration", details: "Substitution is the most common technique. Integration by Parts is also explicitly on the syllabus and appears regularly." },
+                            { name: "L'Hopital's Rule", details: "The go-to method for solving indeterminate limits (0/0 or ∞/∞). A high-yield topic." }
                         ]
                     },
                     {
                         tier: 2,
-                        title: "Applications",
-                        description: "Useful applications to connect core concepts to problem-solving.",
+                        title: "Very Important (High Priority)",
+                        description: "A strong performance requires knowing these well.",
                         topics: [
-                            { name: "Optimization", details: "Finding maxima and minima in applied contexts" },
-                            { name: "Integration Basics", details: "Definite and indefinite integrals" }
+                            { name: "Series and Convergence", details: "Know the behavior of geometric and harmonic series. The Integral Test and Comparison Test are the most common convergence tests." },
+                            { name: "Improper Integrals", details: "Be comfortable evaluating integrals with infinite limits or singularities." },
+                            { name: "Mean Value Theorem (MVT)", details: "A key theoretical tool. Understand its consequences, e.g., if f'=0, then f is constant." },
+                            { name: "Integration by Partial Fractions", details: "The standard method for integrating rational functions." }
+                        ]
+                    },
+                    {
+                        tier: 3,
+                        title: "Good to Know (Medium Priority)",
+                        description: "Standard topics that may appear, but are less central.",
+                        topics: [
+                            { name: "Volumes by Slicing", details: "Volumes of revolution (disk/shell methods) appear sporadically." },
+                            { name: "Taylor & Power Series", details: "Know the standard series for e^x, sin(x), and ln(1+x)." }
+                        ]
+                    },
+                     {
+                        tier: 4,
+                        title: "Can Safely Deprioritize",
+                        description: "Minimal study time required.",
+                        topics: [
+                            { name: "Numerical Integration", details: "Methods like the Trapezoidal Rule or Simpson's Rule are not typically tested." },
+                            { name: "Arc Length and Surface Area", details: "These applications are highly unlikely to appear." },
+                            { name: "Polar Coordinates", details: "Not relevant to the economics or statistics curriculum tested." },
+                            { name: "Newton's Method", details: "A numerical method that is not part of the core syllabus." }
+                        ]
+                    }
+                ]
+            },
+            "multivariable-calculus": {
+                title: "Multivariable Calculus",
+                tiers: [
+                    {
+                        tier: 1,
+                        title: "Absolutely Essential (Highest Priority)",
+                        description: "The core of multivariable calculus on the exam, essential for economic optimization.",
+                        topics: [
+                            { name: "Partial Derivatives", details: "Fluently compute first and second-order partial derivatives." },
+                            { name: "Unconstrained Optimization", details: "Find critical points where the gradient is zero. Use the discriminant (f_xx*f_yy - f_xy^2) to classify points." },
+                            { name: "Constrained Optimization & Lagrange Multipliers", details: "The MOST IMPORTANT multivariable topic. It is the engine behind microeconomic theory. Understand the economic interpretation of λ (shadow price)." },
+                            { name: "The Gradient Vector", details: "Key Properties: The gradient points in the direction of fastest increase and is perpendicular to level curves (indifference curves, isoquants)." }
+                        ]
+                    },
+                    {
+                        tier: 2,
+                        title: "Very Important (High Priority)",
+                        description: "Necessary tools for solving Tier 1 problems.",
+                        topics: [
+                            { name: "The Chain Rule", details: "Crucial for comparative statics and dynamic problems." },
+                            { name: "Non-Independent Variables (Implicit Function Theorem)", details: "The basis of comparative statics in economics." },
+                            { name: "Determinants (as a tool)", details: "The 2x2 determinant is essential for the Second Derivative Test." }
+                        ]
+                    },
+                    {
+                        tier: 3,
+                        title: "Good to Know (Medium Priority)",
+                        description: "Foundational knowledge that may appear in simpler questions.",
+                        topics: [
+                            { name: "Dot Product", details: "Useful for understanding vector length and orthogonality." },
+                            { name: "Level Curves", details: "The ability to visualize functions of two variables (utility, production) is fundamental." }
+                        ]
+                    },
+                    {
+                        tier: 4,
+                        title: "Can Safely Be Ignored",
+                        description: "Not on the MSQE syllabus.",
+                        topics: [
+                            { name: "Cross Product", details: "" },
+                            { name: "Parametric Equations of Motion", details: "" },
+                            { name: "All Advanced Integration", details: "Includes Double/Triple Integrals, Line/Surface Integrals, and theorems like Green's, Stokes', Divergence." }
+                        ]
+                    }
+                ]
+            },
+            "linear-algebra": {
+                title: "Linear Algebra",
+                tiers: [
+                    {
+                        tier: 1,
+                        title: "Absolutely Essential (Highest Priority)",
+                        description: "The bedrock of the linear algebra portion of the syllabus.",
+                        topics: [
+                            { name: "Solving Systems & The Complete Solution", details: "The single most important skill. Know elimination, pivots, rank, and finding particular + nullspace solutions (x = xp + xn)." },
+                            { name: "Column Space & Null Space", details: "Fundamental for determining the existence and number of solutions. Know that dim(Column Space) = rank and dim(Null Space) = n - rank." },
+                            { name: "Determinants & Invertibility", details: "The primary tool for checking invertibility (det(A) ≠ 0) and finding eigenvalues." },
+                            { name: "Eigenvalues and Eigenvectors", details: "Find eigenvalues via the characteristic equation det(A - λI) = 0, and eigenvectors by solving (A - λI)x = 0." }
+                        ]
+                    },
+                    {
+                        tier: 2,
+                        title: "Very Important Applications",
+                        description: "The bridge from pure math to economics and statistics.",
+                        topics: [
+                            { name: "Least Squares Approximation", details: "The foundation of linear regression. Understand projections and the normal equation A'Ax̂ = A'b." },
+                            { name: "Diagonalization & Powers of a Matrix", details: "Key application of eigenvalues for dynamic systems. Use the factorization A = SΛS⁻¹ to calculate Aᵏ." },
+                            { name: "Markov Matrices", details: "A classic application. The steady-state vector corresponds to the eigenvalue λ = 1." }
+                        ]
+                    },
+                    {
+                        tier: 3,
+                        title: "Good to Know",
+                        description: "Provide deeper understanding and may appear in parts of problems.",
+                        topics: [
+                            { name: "Row Space & Left Null Space", details: "Understand the orthogonality between row space and null space." },
+                            { name: "Orthogonality", details: "Defined by the dot product being zero." },
+                            { name: "Symmetric & Positive Definite Matrices", details: "Relevant for optimization in multivariable calculus." },
+                            { name: "Linear Transformations", details: "The abstract concept behind matrices." }
+                        ]
+                    },
+                    {
+                        tier: 4,
+                        title: "Can Safely Deprioritize",
+                        description: "Too advanced or specialized for the MSQE exam.",
+                        topics: [
+                            { name: "Factorizations (A=LU, A=QR)", details: "" },
+                            { name: "Cramer's Rule", details: "" },
+                            { name: "SVD, Jordan Form, Complex Matrices, Change of Basis, Pseudo-inverses", details: "" }
+                        ]
+                    }
+                ]
+            },
+            "probability": {
+                title: "Probability",
+                tiers: [
+                    {
+                        tier: 1,
+                        title: "Absolutely Essential (Highest Priority)",
+                        description: "The foundation of the syllabus, appearing in both PEA and PEB papers.",
+                        topics: [
+                            { name: "Foundations & Counting", details: "Sample space, probability axioms, and basic counting principles (permutations, combinations)." },
+                            { name: "Conditional Probability & Bayes' Rule", details: "A very high-yield area for problem-solving. Master the Total Probability Theorem and Bayes' Rule for inference." },
+                            { name: "Independence", details: "A fundamental concept. Understand the difference between independent and disjoint events." },
+                            { name: "Random Variables & Distributions", details: "Master Discrete and Continuous RVs, PMF, PDF, and CDF. Deep knowledge of Binomial and Normal distributions is required." },
+                            { name: "Expectation, Variance, & Joint Distributions", details: "Calculate expected value and variance. Linearity of Expectation (E[X+Y] = E[X]+E[Y]) is a crucial tool. Be comfortable with joint PMFs/PDFs." }
+                        ]
+                    },
+                    {
+                        tier: 2,
+                        title: "Very Important (High Priority)",
+                        description: "Standard topics that appear frequently in past papers.",
+                        topics: [
+                            { name: "Other Key Standard Distributions", details: "Be familiar with Poisson, Geometric (and its memorylessness property), and Exponential distributions." },
+                            { name: "Central Limit Theorem (CLT)", details: "A cornerstone of statistics. Understand its use for approximating distributions (e.g., Binomial with Normal)." },
+                            { name: "Derived Distributions", details: "A common problem type: find the distribution of a function of a random variable (e.g., PDF of Y=X² given PDF of X)." }
+                        ]
+                    },
+                    {
+                        tier: 3,
+                        title: "Good to Know (Medium Priority)",
+                        description: "Useful theoretical tools that might appear in conceptual questions.",
+                        topics: [
+                            { name: "Bounding Probabilities", details: "Markov and Chebyshev inequalities for finding bounds on probabilities." },
+                            { name: "Law of Iterated Expectations", details: "The rule that E[X] = E[E[X|Y]] can simplify complex expectation calculations." },
+                            { name: "Weak Law of Large Numbers (WLLN)", details: "The theorem that justifies why sample averages converge to the true mean." }
+                        ]
+                    },
+                    {
+                        tier: 4,
+                        title: "Can Safely Deprioritize",
+                        description: "These topics are too advanced for the MSQE's scope.",
+                        topics: [
+                            { name: "Markov Chains", details: "" },
+                            { name: "Statistical Inference (Bayesian/Classical)", details: "Deep theory of ML, confidence intervals, hypothesis testing is generally not tested." },
+                            { name: "Random Walks", details: "" }
+                        ]
+                    }
+                ]
+            },
+            "differential-equations": {
+                title: "Differential Equations",
+                 tiers: [
+                    {
+                        tier: 1,
+                        title: "Absolutely Essential (Highest Priority)",
+                        description: "Foundational topics, often embedded within macroeconomics problems.",
+                        topics: [
+                            { name: "First-Order Linear ODEs", details: "The most important category. Master the method of integrating factors and understand the concept of a steady state." },
+                            { name: "Separable Equations", details: "A simple and common technique: separate variables and integrate both sides." },
+                            { name: "Autonomous Equations & Qualitative Analysis", details: "Highly relevant for economic growth models. Find critical points (steady states) where y' = 0 and use a phase line to determine their stability." }
+                        ]
+                    },
+                    {
+                        tier: 2,
+                        title: "Good to Know (Medium Priority)",
+                        description: "May appear in more advanced or standalone math questions.",
+                        topics: [
+                            { name: "Second-Order Homogeneous Linear Equations", details: "Solve the characteristic equation. Understand how the roots (real, repeated, complex) determine the solution's behavior." },
+                            { name: "Linear Systems of Equations", details: "Set up a system as x' = Ax and solve using eigenvalues and eigenvectors." }
+                        ]
+                    },
+                    {
+                        tier: 3,
+                        title: "Can Safely Deprioritize or Ignore",
+                        description: "These are generally beyond the scope of the MSQE syllabus.",
+                        topics: [
+                            { name: "Inhomogeneous Equations (Undetermined Coefficients)", details: "" },
+                            { name: "Numerical Methods (Euler's Method)", details: "" },
+                            { name: "Laplace Transforms", details: "" },
+                            { name: "Fourier Series", details: "" },
+                            { name: "Nonlinear Systems Analysis", details: "" },
+                            { name: "Advanced Solution Formulas (Variation of Parameters, Matrix Exponential)", details: "" }
                         ]
                     }
                 ]
@@ -168,6 +375,7 @@
                 document.querySelectorAll('.subject-tab').forEach(tab => {
                     tab.classList.remove('tab-active');
                     tab.classList.add('border-transparent', 'text-slate-500', 'hover:text-amber-700', 'hover:border-amber-300');
+
                 });
                 e.target.classList.add('tab-active');
                 e.target.classList.remove('border-transparent', 'text-slate-500', 'hover:text-amber-700', 'hover:border-amber-300');
@@ -183,8 +391,11 @@
             }
         });
 
+        // Initial Load
         renderTabs();
         renderContent('single-variable-calculus');
+
     </script>
 </body>
 </html>
+
